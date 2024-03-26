@@ -6,13 +6,29 @@ const departmentschema=new mongoose.Schema({
         type:String,
         require:true
      },
-     id:{
-        type:String,
+     userid:{
+        type:mongoose.Schema.ObjectId,
         require:true
      },
      department:{
         type:String,
         require:true
+     },
+     location:{
+      type:String,
+      require:false
+     },
+     room:{
+      type:Number,
+      require:false
+     },
+     fee:{
+      type:Number,
+      require:false
+     },
+     floor:{
+        type:Number,
+        require:false
      },
      createAt:{
         type:Date,

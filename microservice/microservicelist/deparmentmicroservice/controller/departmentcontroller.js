@@ -15,7 +15,12 @@ router.route('/add').get((req,res)=>{
           const data={
             name:item.name,
             department:item.department,
-            id:item.id
+            userid:item.id,
+            location:item.location,
+            fee:item.fee,
+            room:item.room,
+            floor:item.floor
+
           }
           departmentmodel.create(data)
           .then((detail)=>{
@@ -30,5 +35,58 @@ router.route('/add').get((req,res)=>{
 })
 
 
+router.route('/aggregate').get(async (req, res) => {
+       try{
+              const detail=await departmentmodel.aggregate([
+                {
+                   $lookup:{
+                    from:"students",
+                    localField:"userid",
+                    foreignField:"_id",
+                    as:"suser"
+                   }
+                },
+                {
+                  $unwind:{
+                      path:"$suser",
+                      preserveNullAndEmptyArrays:true
+                  }
+                },
+                {
+                  $project:{
+                    "name":"$suser.name",
+                     "price":"$fee",
+                     "class":"$suser.class",
+                     
+                  }
+                }
+              ])
+              res.status(200).send({message:"deta find successful",data:detail});
+       }catch(err){
+               res.status(500).send({message:"Internal server error",error:err.message});
+       }
+});
+
+
+router.route('/aggregate/filter').get(async(req,res)=>{
+      console.log("adadad");
+   try{  
+     const detail=await departmentmodel.aggregate([
+      {
+         "$match": { "location":"pune" }
+      },
+      {
+        "$group":{"_id":"$_id","price":{"$first":"$fee"},"floorrom":{"$sum":{"$add":["$room","$floor"]}}}
+      },
+        {
+          "$sort":{"floorrom":1}
+        }
+    ])
+      res.status(200).send({message:"Data find successful",data:detail});
+    }
+    catch(err){
+        res.status(500).send({message:"Internal server error",error:err.message});
+    }
+})
 module.exports=router;
 
