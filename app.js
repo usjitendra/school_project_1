@@ -13,6 +13,7 @@ const port=serverlist.serverlist.rootserver.port;
 app.use('/admin',proxy('localhost:'+serverlist.serverlist.adminserver.port));
 app.use('/student',proxy('localhost:'+serverlist.serverlist.studentserver.port));
 app.use('/department',proxy('localhost:'+serverlist.serverlist.department.port));
+app.use('/payment',proxy('localhost:'+serverlist.serverlist.payment.port));
 app.listen(port,()=>{
     console.log(`root server start on port ${port}`);
 })

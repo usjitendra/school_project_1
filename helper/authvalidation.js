@@ -27,7 +27,7 @@ const jwtvalidation = (req, res, next) => {
     try {
         // Extract token from Authorization header
         let token = req.headers.authorization;
-        if (!token || !token.startsWith('Bearer')) {
+        if (!token || !token.startsWith('Bearer'))  {
             return res.status(401).json({ message: "Authorization token not provided" });
         }
 

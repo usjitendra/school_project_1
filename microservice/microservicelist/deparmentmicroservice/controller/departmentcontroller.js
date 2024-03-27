@@ -20,7 +20,6 @@ router.route('/add').get((req,res)=>{
             fee:item.fee,
             room:item.room,
             floor:item.floor
-
           }
           departmentmodel.create(data)
           .then((detail)=>{
@@ -66,7 +65,6 @@ router.route('/aggregate').get(async (req, res) => {
                res.status(500).send({message:"Internal server error",error:err.message});
        }
 });
-
 
 router.route('/aggregate/filter').get(async(req,res)=>{
       console.log("adadad");
