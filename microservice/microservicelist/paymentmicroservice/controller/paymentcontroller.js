@@ -1,28 +1,39 @@
-const express=require('express');
-const router=express.Router();
-const coinpayment=require('coinpayments');
-const bodyparser=require('body-parser');
+const express = require('express');
+const router = express.Router();
+const Coinpayments = require('coinpayments');
+const bodyParser = require('body-parser');
 
-const clinet= new coinpayment({
-    key:"",
-    secret:""
+// Key Name: Unnamed API Key
+// Public Key: d1ab7cfa80a01b99fe879fe19a021ba1ede0e81a9af9a193c548451d8451d8da
+// Private Key: 407E6fBcCb3566aFB4dbC913DACa1bd46B8DccD40e9bc0Ce5a461b4Ce74b1e81
+
+const client = new Coinpayments({
+    key: 'd1ab7cfa80a01b99fe879fe19a021ba1ede0e81a9af9a193c548451d8451d8da',
+    secret: '407E6fBcCb3566aFB4dbC913DACa1bd46B8DccD40e9bc0Ce5a461b4Ce74b1e81'
 });
 
-router.route('/add').get(async(req,res)=>{
-        try{
-            const {amount,currency,buyer_email}=req.query;
+router.route('/add').post(async (req, res) => {
+    try {
+        const { amount, currency, buyer_email } = req.body;
 
-            const payment =await clinet.createTransaction({
-                amount,
-                currency1:currency,
-                currency2:'BTC',
-                buyer_email,
-            })
-            res.json({payment})
-        }catch(err){
-            res.status(500).send({error:err.message});
-        }
-})
+        console.log({
+            amount,
+            currency1: currency,
+            currency2: currency, // Assuming currency2 should be 'BTC'
+            buyer_email
+        });
 
+        const payment = await client.createTransaction({
+            amount,
+            currency1: currency,
+            currency2: currency, // Assuming currency2 should be 'BTC'
+            buyer_email
+        });
 
-module.exports=router;
+        res.send(payment)
+    } catch (err) {
+        res.status(500).send({ error: err.message });
+    }
+});
+
+module.exports = router;
