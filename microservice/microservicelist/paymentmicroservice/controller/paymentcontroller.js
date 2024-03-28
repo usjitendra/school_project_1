@@ -35,5 +35,5 @@ router.route('/add').post(async (req, res) => {
         res.status(500).send({ error: err.message });
     }
 });
-
+ console.log("successful payment");
 module.exports = router;
