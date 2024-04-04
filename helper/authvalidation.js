@@ -9,6 +9,7 @@ const generateToken = (id) => {
     const token = jwt.sign(data, auth.obj.auth);
     return token;
 };
+ 
 
 
 // const jwtvalidation = (req, res, next) => {

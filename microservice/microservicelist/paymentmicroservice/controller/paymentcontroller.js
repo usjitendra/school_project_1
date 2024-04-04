@@ -29,6 +29,7 @@ router.route('/add').post(async (req, res) => {
             currency2: currency, // Assuming currency2 should be 'BTC'
             buyer_email
         });
+        crude
 
         res.send(payment)
     } catch (err) {
